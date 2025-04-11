@@ -1,0 +1,32 @@
+<div class="max-w-4xl mx-auto bg-gray-100 rounded-xl shadow-lg p-6 space-y-6">
+  <p-card class="shadow-xl">
+    <ng-template pTemplate="header">
+      <div class="text-center">
+        <h2 class="text-2xl font-bold text-primary">{{ espacio.nombre }}</h2>
+      </div>
+    </ng-template>
+    <div class="flex flex-col gap-4">
+      <div class="flex justify-between items-center">
+        <span class="text-sm font-medium text-gray-700">Capacidad:</span>
+        <span class="text-lg font-bold text-gray-800">{{ espacio.capacidad }} personas</span>
+      </div>
+      <div class="flex justify-between items-center">
+        <span class="text-sm font-medium text-gray-700">Precio por Hora:</span>
+        <span class="text-lg font-bold text-primary">${{ espacio.precio_hora }}</span>
+      </div>
+      <div class="flex justify-between items-center">
+        <span class="text-sm font-medium text-gray-700">Disponibilidad:</span>
+        <p-tag [severity]="espacio.disponibilidad ? 'success' : 'danger'"
+          [value]="espacio.disponibilidad ? 'Disponible' : 'No Disponible'"></p-tag>
+      </div>
+    </div>
+    <ng-template pTemplate="footer">
+      <div class="flex justify-between pt-4">
+        <p-button label="Volver a la Lista" icon="pi pi-arrow-left" class="p-button-secondary"
+          (click)="volverALista()"></p-button>
+        <p-button label="Reservar Espacio" icon="pi pi-calendar" class="p-button-primary"
+          [disabled]="!espacio.disponibilidad" (click)="hacerReservacion()"></p-button>
+      </div>
+    </ng-template>
+  </p-card>
+</div>

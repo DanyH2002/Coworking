@@ -1,0 +1,22 @@
+<div class="bg-gray-900 shadow-lg p-4">
+  <p-megamenu [model]="items" styleClass="flex justify-between items-center text-gray-100 bg-gray-900 rounded-lg">
+    <ng-template #start>
+      <div class="flex items-center space-x-3">
+        <svg width="35" height="35" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor"
+          class="text-primary">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M16.88 3.549a8.068 8.068 0 01.768 3.584c-.05 3.004-.95 7.573-4.25 9.369-1.047.6-2.177 1.054-3.398 1.357a9.166 9.166 0 01-5.147-7.294A8.097 8.097 0 013 5.649c.062-.61.103-1.31.51-1.788a2.997 2.997 0 011.881-.883c2.076-.253 4.302.004 6.168.777zM12 7h.01" />
+        </svg>
+        <h1 class="text-xl font-bold uppercase text-gray-800 tracking-wider">Mi Empresa</h1>
+      </div>
+    </ng-template>
+
+
+    <ng-template #end>
+      <p-avatar image="https://primefaces.org/cdn/primeng/images/demo/avatar/amyelsner.png" shape="circle"
+        class="shadow-lg" />
+    </ng-template>
+  </p-megamenu>
+</div>
+
+<router-outlet></router-outlet>

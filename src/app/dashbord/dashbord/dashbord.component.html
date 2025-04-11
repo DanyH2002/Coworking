@@ -1,58 +1,71 @@
-<div class="p-grid min-h-screen bg-gray-50">
-  <!-- Top Navbar -->
-  <div class="p-col-12 bg-gray-800 text-white flex items-center justify-between p-4 shadow-md">
-    <p-button label="Menú" icon="pi pi-bars" class="p-button-rounded p-button-secondary" (click)="toggleDrawer()"></p-button>
-    <h1 class="text-xl font-bold mx-auto">Coworking Dashboard</h1>
-    <p-avatar icon="pi pi-user" styleClass="bg-gray-600 text-white"></p-avatar>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 justify-center">
+  <div class="mb-4 p-8 flex items-center justify-center">
+    <p-card [style]="{ width: '25rem', overflow: 'hidden' }">
+      <ng-template #header>
+      </ng-template>
+      <ng-template #title> Reservaciones del dia </ng-template>
+      <ng-template #subtitle>No. de reservaciones de hoy</ng-template>
+      <ng-template #content></ng-template>
+      <ng-template #footer>
+      </ng-template>
+    </p-card>
   </div>
-
-  <!-- Side Drawer -->
-  <p-drawer [(visible)]="drawerVisible" [modal]="true" [style]="{ width: '18rem', background: '#f9f9f9' }">
-    <div class="p-py-4 px-3">
-      <h3 class="text-center text-lg font-bold">Menú</h3>
-      <p-divider></p-divider>
-      <ul class="p-menu p-menu-overlay mt-4 flex flex-col gap-4">
-        <li>
-          <p-button label="Espacios" icon="pi pi-building" class="p-button-outlined w-full p-3"></p-button>
-        </li>
-        <li>
-          <p-button label="Reservas" icon="pi pi-calendar" class="p-button-outlined w-full p-3"></p-button>
-        </li>
-        <li>
-          <p-button label="Clientes" icon="pi pi-users" class="p-button-outlined w-full p-3"></p-button>
-        </li>
-        <li>
-          <p-button label="Cerrar Sesión" icon="pi pi-power-off" class="p-button-outlined w-full p-3 text-red-500"></p-button>
-        </li>
-      </ul>
-    </div>
-  </p-drawer>
-
-  <!-- Dashboard Content -->
-  <div class="p-col-12 p-p-4">
-    <!-- Table: Reservas -->
-    <div class="p-col-12">
-      <div class="card p-shadow-2 border border-gray-200 rounded-lg">
-        <h4 class="text-lg font-bold text-gray-700 p-4">Historial de Reservas</h4>
-        <p-table [value]="reservas" [paginator]="true" [rows]="5" tableStyleClass="min-w-full">
-          <ng-template pTemplate="header">
-            <tr class="bg-gray-100 text-gray-700">
-              <th class="p-3">Cliente</th>
-              <th class="p-3">Espacio</th>
-              <th class="p-3">Fecha</th>
-              <th class="p-3">Estado</th>
-            </tr>
-          </ng-template>
-          <ng-template pTemplate="body" let-reserva>
-            <tr class="hover:bg-gray-50">
-              <td class="p-3">{{ reserva.cliente }}</td>
-              <td class="p-3">{{ reserva.espacio }}</td>
-              <td class="p-3">{{ reserva.fecha }}</td>
-              <td class="p-3">{{ reserva.estado }}</td>
-            </tr>
-          </ng-template>
-        </p-table>
-      </div>
-    </div>
+  <div class="mb-4 p-8 flex items-center justify-center">
+    <p-card [style]="{ width: '25rem', overflow: 'hidden' }">
+      <ng-template #header>
+      </ng-template>
+      <ng-template #title> Reservaciones pendientes </ng-template>
+      <ng-template #subtitle>No. de reservaciones pendientes</ng-template>
+      <ng-template #content></ng-template>
+      <ng-template #footer>
+      </ng-template>
+    </p-card>
   </div>
+  <div class="mb-4 p-8 flex items-center justify-center">
+    <p-card [style]="{ width: '25rem', overflow: 'hidden' }">
+      <ng-template #header>
+      </ng-template>
+      <ng-template #title>Usuarios registrados</ng-template>
+      <ng-template #subtitle>Total de usuarios registrados</ng-template>
+      <ng-template #content></ng-template>
+      <ng-template #footer>
+      </ng-template>
+    </p-card>
+  </div>
+  <div class="mb-4 p-8 flex items-center justify-center">
+    <p-card [style]="{ width: '25rem', overflow: 'hidden' }">
+      <ng-template #header>
+      </ng-template>
+      <ng-template #title> Espacios existente </ng-template>
+      <ng-template #subtitle>No. total de espacios</ng-template>
+      <ng-template #content></ng-template>
+      <ng-template #footer>
+      </ng-template>
+    </p-card>
+  </div>
+  <div class="mb-4 p-8 flex items-center justify-center">
+    <p-card [style]="{ width: '25rem', overflow: 'hidden' }">
+      <ng-template #header>
+      </ng-template>
+      <ng-template #title> Ingreso del mes</ng-template>
+      <ng-template #subtitle>Total de ingreso de reservaciones</ng-template>
+      <ng-template #content></ng-template>
+      <ng-template #footer>
+      </ng-template>
+    </p-card>
+  </div>
+  <div class="mb-4 p-8 flex items-center justify-center">
+    <p-card [style]="{ width: '25rem', overflow: 'hidden' }">
+      <ng-template #header>
+      </ng-template>
+      <ng-template #title> Reservaciones del mes </ng-template>
+      <ng-template #subtitle>Porcentaje de reservaciones del mes</ng-template>
+      <ng-template #content></ng-template>
+      <ng-template #footer>
+      </ng-template>
+    </p-card>
+  </div>
+</div>
+<div class="card">
+  <p-chart type="line" [data]="data" [options]="options" class="h-[30rem]" />
 </div>
