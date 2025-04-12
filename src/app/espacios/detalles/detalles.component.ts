@@ -25,13 +25,13 @@ export class DetallesComponent implements OnInit {
     private message: MessageService
   ) { }
 
-  ngOnInit(): void {
+  ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id'); // Obtener ID desde la URL
     console.log('ID recibido:', id); // Validar en consola que se está recibiendo el ID
     this.cargarEspacio(id); // Cargar espacio con el ID recibido
   }
 
-  cargarEspacio(id: string | null): void {
+  cargarEspacio(id: string | null) {
     console.log('ID del espacio:', id);
     if (id) {
       this.api.getItem('espacios', Number(id)).subscribe({

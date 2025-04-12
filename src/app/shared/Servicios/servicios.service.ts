@@ -31,7 +31,7 @@ export class ServiciosService {
     return this.http.put<any>(`${this.apiUrl}/${Module}${this.accionValor(Accion)}/${id}`, data);
   }
 
-  deleteItem(Module: string, id: number, Accion: string = ''): Observable<any> {
+  deleteItem(Module: string, id: any, Accion: string = ''): Observable<any> {
     let AccionValor = Accion != '' ? `/${Accion}` : '';
     return this.http.delete<any>(`${this.apiUrl}/${Module}${this.accionValor(Accion)}/${id}`);
   }

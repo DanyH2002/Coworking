@@ -2,30 +2,34 @@
 <div class="max-w-6xl mx-auto bg-gray-100 p-6 rounded-lg shadow">
   <h2 class="text-2xl font-bold text-gray-800 mb-4">Crear Reservación</h2>
   <form [formGroup]="reservacionForm" (ngSubmit)="confirmReservacion($event)" class="space-y-6">
-    <div class="mb-4">
-      <label for="id_espacio" class="block text-gray-700 font-medium mb-2">Espacio</label>
-      <p-dropdown [options]="espacios" formControlName="id_espacio" placeholder="Selecciona un espacio"></p-dropdown>
-    </div>
     <div class="mb-4" *ngIf="isAdmin">
       <label for="id_user" class="block text-gray-700 font-medium mb-2">Usuario</label>
       <p-dropdown [options]="usuarios" formControlName="id_user" placeholder="Selecciona un usuario"></p-dropdown>
     </div>
+    <div class="mb-4" *ngIf="!reservacionForm.get('id_espacio')?.value">
+      <label for="id_espacio" class="block text-gray-700 font-medium mb-2">Espacio</label>
+      <p-dropdown [options]="espacios" formControlName="id_espacio" placeholder="Selecciona un espacio"></p-dropdown>
+    </div>
     <div class="mb-4">
       <label for="fecha_reseva" class="block text-gray-700 font-medium mb-2">Fecha de Reservación</label>
-      <input type="date" id="fecha_reseva" class="p-inputtext w-full" formControlName="fecha_reseva">
+      <p-datepicker formControlName="fecha_reseva" dateFormat="yy-mm-dd"
+        placeholder="Selecciona la fecha"></p-datepicker>
     </div>
     <div class="mb-4">
       <label for="hora_inicio" class="block text-gray-700 font-medium mb-2">Hora Inicial</label>
-      <input type="time" id="hora_inicio" class="p-inputtext w-full" formControlName="hora_inicio">
+      <p-datepicker formControlName="hora_inicio" timeOnly="true"
+        placeholder="Selecciona la hora inicial"></p-datepicker>
     </div>
     <div class="mb-4">
       <label for="hora_fin" class="block text-gray-700 font-medium mb-2">Hora Final</label>
-      <input type="time" id="hora_fin" class="p-inputtext w-full" formControlName="hora_fin">
+      <p-datepicker formControlName="hora_fin" timeOnly="true" placeholder="Selecciona la hora final"></p-datepicker>
     </div>
     <p-toast [showTransformOptions]="'translateY(100%)'" [showTransitionOptions]="'1000ms'"
-    [hideTransitionOptions]="'1000ms'" [showTransformOptions]="'translateX(100%)'" />
+      [hideTransitionOptions]="'1000ms'" [showTransformOptions]="'translateX(100%)'" />
     <div class="flex justify-end">
       <p-button type="submit" class="p-button-rounded p-button-primary w-45">Crear Reservación</p-button>
+      <p-button label="Lista de Espacios" icon="pi pi-arrow-left" class="p-button-secondary"
+        (click)="volverALista()"></p-button>
     </div>
   </form>
 </div>

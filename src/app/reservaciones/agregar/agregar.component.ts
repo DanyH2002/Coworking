@@ -10,10 +10,11 @@ import { ButtonModule } from 'primeng/button';
 import { ToastModule } from 'primeng/toast';
 import { DropdownModule } from 'primeng/dropdown';
 import { ConfirmDialog } from 'primeng/confirmdialog';
+import { DatePickerModule } from 'primeng/datepicker';
 
 @Component({
   selector: 'app-agregar',
-  imports: [CommonModule, FormsModule, ButtonModule, ToastModule, ReactiveFormsModule, DropdownModule, ConfirmDialog],
+  imports: [CommonModule, FormsModule, ButtonModule, ToastModule, ReactiveFormsModule, DropdownModule, ConfirmDialog, DatePickerModule],
   providers: [MessageService, ConfirmationService],
   templateUrl: './agregar.component.html',
   styleUrl: './agregar.component.css'
@@ -42,45 +43,55 @@ export class AgregarComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {
-    this.verificarRol();
-    this.cargarEspacios();
-    if (this.isAdmin) {
-      this.cargarUsuarios();
-    }
+  ngOnInit() {
+    this.route.queryParams.subscribe(params => {
+      const espacioId = params['espacioId']; // Obtener el espacio preseleccionado
+      this.verificarRol();
+      console.log("ID del espacio:", espacioId);
+      console.log("ID del usuario:", localStorage.getItem('id'));
+      console.log("Rol del usuario:", localStorage.getItem('rol'));
+      // Configura el formulario dependiendo del contexto (cliente o administrador)
+      this.reservacionForm = this.fb.group({
+        id_espacio: [espacioId || '', Validators.required], // Si `espacioId` está presente, se asigna; si no, se deja vacío
+        id_user: [this.isAdmin ? '' : localStorage.getItem('id'), Validators.required], // Si es cliente, asigna automáticamente su ID
+        fecha_reseva: ['', Validators.required],
+        hora_inicio: ['', Validators.required],
+        hora_fin: ['', Validators.required],
+      });
+      console.log("Formulario de reservación inicializado:", this.reservacionForm.value);
 
-    this.reservacionForm = this.fb.group({
-      id_espacio: ['', Validators.required],
-      id_user: [this.isAdmin ? '' : localStorage.getItem('id'), Validators.required],
-      fecha_reseva: ['', Validators.required],
-      hora_inicio: ['', Validators.required],
-      hora_fin: ['', Validators.required],
+      // Si no hay espacio preseleccionado, carga la lista de espacios
+      if (!espacioId) {
+        this.cargarEspacios();
+      }
+      // Cargar usuarios si es administrador
+      if (this.isAdmin) {
+        this.cargarUsuarios();
+      }
     });
   }
 
-  verificarRol(): void {
+  verificarRol() {
     const rol = localStorage.getItem('rol');
     this.isAdmin = rol === '1';
   }
 
-  cargarEspacios(): void {
+  cargarEspacios() {
     this.api.getItems('espacios').subscribe({
       next: (response: any) => {
-        console.log("Espacios cargados:", response.espacios);
         this.espacios = response.espacios.map((e: any) => ({ label: e.nombre, value: e.id }));
-        console.log("Espacios mapeados:", this.espacios);
       },
       error: (error) => {
         console.error("Error al cargar espacios:", error);
       }
     });
   }
-  cargarUsuarios(): void {
+
+
+  cargarUsuarios() {
     this.api.getItems('admin/usuarios').subscribe({
       next: (response: any) => {
-        console.log("Usuarios cargados:", response.usuarios);
         this.usuarios = response.usuarios.map((u: any) => ({ label: u.name, value: u.id }));
-        console.log("Usuarios mapeados:", this.usuarios);
       },
       error: (error) => {
         console.error("Error al cargar usuarios:", error);
@@ -108,7 +119,19 @@ export class AgregarComponent implements OnInit {
           outlined: true,
         },
         accept: () => {
-          this.api.postItem('reservaciones', this.reservacionForm.value).subscribe({
+          const formData = this.reservacionForm.value;
+          // Convertir la fecha y las horas al formato esperado por el backend
+          const fecha_reseva = this.formatDate(formData.fecha_reseva);
+          const hora_inicio = this.formatTime(formData.hora_inicio);
+          const hora_fin = this.formatTime(formData.hora_fin);
+
+          const requestData = {
+            ...formData,
+            fecha_reseva,
+            hora_inicio,
+            hora_fin,
+          };
+          this.api.postItem('reservaciones', requestData).subscribe({
             next: (response: any) => {
               this.message.add({ severity: 'success', summary: 'Éxito', detail: 'Reservación creada con éxito' });
               console.log("Reservación creada:", response);
@@ -127,4 +150,22 @@ export class AgregarComponent implements OnInit {
       this.message.add({ severity: 'warn', summary: 'Advertencia', detail: 'Por favor complete todos los campos requeridos.' });
     }
   }
+
+  formatDate(date: Date): string {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  }
+
+  formatTime(time: Date): string {
+    const hours = String(time.getHours()).padStart(2, '0');
+    const minutes = String(time.getMinutes()).padStart(2, '0');
+    return `${hours}:${minutes}`;
+  }
+
+  volverALista() {
+    this.router.navigateByUrl('/inicio/espacios');
+  }
+
 }

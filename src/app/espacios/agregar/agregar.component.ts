@@ -41,7 +41,7 @@ export class AgregarComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {
+  ngOnInit() {
     // Cargar el espacio si se pasa un id en la URL
     const id = this.route.snapshot.paramMap.get('id'); // Obtenemos el id de la URL
     this.cargarEspacio(id); // Cargamos el espacio

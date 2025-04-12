@@ -1,55 +1,58 @@
 <p-confirmDialog></p-confirmDialog>
-<div class="max-w-2xl mx-auto bg-white rounded-xl shadow-lg px-8 py-10">
+<div class="max-w-2xl mx-auto bg-gray-100 p-8 rounded-lg shadow-lg border border-gray-300">
+  <h2 class="text-3xl font-bold text-gray-800 text-center mb-6">
+    {{ espacio ? 'Actualizar Espacio' : 'Crear Espacio' }}
+  </h2>
   <form [formGroup]="EspacioForm" (ngSubmit)="espacio ? actualizarEspacio() : crearEspacio()" class="space-y-6">
-
-    <h2 class="text-2xl font-bold text-gray-800 text-center">
-      {{ espacio ? 'Actualizar Espacio' : 'Crear Espacio' }}
-    </h2>
-
     <div>
-      <label for="nombre" class="block text-sm font-medium text-gray-700 mb-1">Nombre</label>
-      <input pInputText formControlName="nombre" class="w-full" placeholder="Nombre del espacio" />
+      <label for="nombre" class="block text-sm font-medium text-gray-700 mb-2">Nombre</label>
+      <input pInputText formControlName="nombre"
+        class="w-full rounded-lg border border-gray-300 p-2 focus:outline-none focus:ring focus:ring-blue-300"
+        placeholder="Nombre del espacio" />
       <small *ngIf="EspacioForm.controls['nombre'].invalid && EspacioForm.controls['nombre'].touched"
         class="text-red-500">Nombre requerido</small>
     </div>
-
     <div>
-      <label for="capacidad" class="block text-sm font-medium text-gray-700 mb-1">Capacidad</label>
-      <p-inputNumber formControlName="capacidad" [min]="1" class="w-full"
+      <label for="capacidad" class="block text-sm font-medium text-gray-700 mb-2">Capacidad</label>
+      <p-inputNumber formControlName="capacidad" [min]="1"
+        class="w-full rounded-lg border border-gray-300 p-2 focus:outline-none focus:ring focus:ring-blue-300"
         placeholder="Capacidad máxima"></p-inputNumber>
       <small *ngIf="EspacioForm.controls['capacidad'].invalid && EspacioForm.controls['capacidad'].touched"
         class="text-red-500">Capacidad mínima: 1</small>
     </div>
-
     <div>
-      <label for="precio_hora" class="block text-sm font-medium text-gray-700 mb-1">Precio por hora (MXN)</label>
+      <label for="precio_hora" class="block text-sm font-medium text-gray-700 mb-2">Precio por hora (MXN)</label>
       <p-inputNumber formControlName="precio_hora" [min]="1" mode="currency" currency="MXN" locale="es-MX"
-        class="w-full" placeholder="0.00"></p-inputNumber>
+        class="w-full rounded-lg border border-gray-300 p-2 focus:outline-none focus:ring focus:ring-blue-300"
+        placeholder="0.00"></p-inputNumber>
       <small *ngIf="EspacioForm.controls['precio_hora'].invalid && EspacioForm.controls['precio_hora'].touched"
         class="text-red-500">El precio mínimo es $1</small>
     </div>
-
     <div class="flex justify-between items-center">
-      <label for="disponibilidad" class="text-sm font-medium text-gray-700">Disponible</label>
+      <label for="disponibilidad" class="block text-sm font-medium text-gray-700">Disponible</label>
       <p-inputSwitch formControlName="disponibilidad"></p-inputSwitch>
     </div>
-
-    <p-toast [showTransformOptions]="'translateY(100%)'" [showTransitionOptions]="'1000ms'"
-      [hideTransitionOptions]="'1000ms'" [showTransformOptions]="'translateX(100%)'" />
-    <div class="flex justify-between pt-4">
-      <p-button type="submit" [label]="espacio ? 'Actualizar' : 'Crear'" [disabled]="EspacioForm.invalid"
-        class="p-button-rounded p-button-primary w-32"></p-button>
-
-      <p-button *ngIf="espacio" type="button" label="Eliminar" icon="pi pi-trash"
-        class="p-button-rounded placeholder-red-600 w-32" (click)="eliminarEspacio($event)"></p-button>
-
-      <p-button *ngIf="espacio" type="button" label="Reservar" icon="pi pi-calendar"
-        class="p-button-rounded placeholder-blue-400 w-32" [disabled]="!espacio.disponibilidad"
+    <p-toast class="my-4"></p-toast>
+    <div class="flex flex-wrap justify-center gap-4">
+      <button type="submit"
+        class="p-2 px-6 bg-green-500 text-white font-bold rounded-lg shadow hover:bg-green-600 focus:ring focus:ring-green-300">
+        <i class="pi pi-check"></i> {{ espacio ? 'Actualizar' : 'Crear' }}
+      </button>
+      <button *ngIf="espacio" type="button"
+        class="p-2 px-6 bg-red-500 text-white font-bold rounded-lg shadow hover:bg-red-600 focus:ring focus:ring-red-300"
+        (click)="eliminarEspacio($event)">
+        <i class="pi pi-trash"></i> Eliminar
+      </button>
+      <button *ngIf="espacio" type="button" [disabled]="!espacio.disponibilidad"
+        class="p-2 px-6 bg-blue-500 text-white font-bold rounded-lg shadow hover:bg-blue-600 focus:ring focus:ring-blue-300"
         (click)="reservarEspacio()">
-      </p-button>
-
-      <p-button *ngIf="espacio" type="button" label="Lista" icon="pi pi-list" class="p-button-rounded w-32"
-        (click)="volverALista()"></p-button>
+        <i class="pi pi-calendar"></i> Reservar
+      </button>
+      <button *ngIf="espacio" type="button"
+        class="p-2 px-6 bg-gray-400 text-white font-bold rounded-lg shadow hover:bg-gray-500 focus:ring focus:ring-gray-300"
+        (click)="volverALista()">
+        <i class="pi pi-list"></i> Lista
+      </button>
     </div>
   </form>
 </div>

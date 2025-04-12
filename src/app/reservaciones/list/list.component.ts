@@ -21,12 +21,12 @@ export class ListComponent implements OnInit {
     private api: ServiciosService
   ) { }
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.verificarRol();
     this.cargarReservaciones();
   }
 
-  verificarRol(): void {
+  verificarRol() {
     const rol = localStorage.getItem('rol');
     this.isAdmin = rol === '1';
     console.log("Rol del usuario:", rol);

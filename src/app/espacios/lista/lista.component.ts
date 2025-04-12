@@ -22,7 +22,7 @@ export class ListaComponent implements OnInit {
 
   ) { }
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.verificarRol();
     this.cargarEspacios();
   }
