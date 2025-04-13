@@ -5,6 +5,7 @@ import { MegaMenu } from 'primeng/megamenu';
 import { AvatarModule } from 'primeng/avatar';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { AuthServiceService } from '../../shared/Servicios/auth-service.service';
 
 @Component({
   selector: 'app-navbar',
@@ -13,13 +14,19 @@ import { CommonModule } from '@angular/common';
   styleUrl: './navbar.component.css'
 })
 export class NavbarComponent {
-  constructor(private router: Router) { }
+  constructor(private router: Router, private auth: AuthServiceService) { }
+
   items: MegaMenuItem[] | undefined;
+  isAdmin: boolean = false;
+
   ngOnInit() {
+    // Verifica el rol del usuario
+    this.isAdmin = this.auth.getUserRole() === '1';
     this.items = [
       {
         label: 'Dashboard',
         root: true,
+        visible: this.isAdmin,
         command: () => {
           this.router.navigateByUrl('/inicio');
         }
@@ -32,7 +39,8 @@ export class NavbarComponent {
               label: 'Opciones:', items: [
                 {
                   label: 'Crear Espacio',
-                  routerLink: ['/inicio/nuevo_espacio']
+                  routerLink: ['/inicio/nuevo_espacio'],
+                  visible: this.isAdmin
 
                 },
                 {
@@ -66,6 +74,7 @@ export class NavbarComponent {
       },
       {
         label: 'Usuario',
+        visible: this.isAdmin,
         items: [
           [
             {
@@ -84,5 +93,14 @@ export class NavbarComponent {
         ]
       }
     ];
+  }
+
+  logout() {
+    this.auth.logout().subscribe({
+      next: () => {
+        this.router.navigate(['/login']);
+      },
+      error: (err) => console.error('Error al cerrar sesión:', err)
+    });
   }
 }

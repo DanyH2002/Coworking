@@ -13,8 +13,16 @@
 
 
     <ng-template #end>
-      <p-avatar image="https://primefaces.org/cdn/primeng/images/demo/avatar/amyelsner.png" shape="circle"
-        class="shadow-lg" />
+      <div class="relative group">
+        <p-avatar image="https://primefaces.org/cdn/primeng/images/demo/avatar/amyelsner.png" shape="circle"
+          class="shadow-lg cursor-pointer"></p-avatar>
+        <div
+          class="absolute right-0 mt-2 bg-white shadow-lg rounded-lg py-2 w-40 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-opacity duration-300">
+          <button (click)="logout()" class="block w-full text-left px-4 py-2 text-gray-800 hover:bg-gray-100">
+            Cerrar Sesión
+          </button>
+        </div>
+      </div>
     </ng-template>
   </p-megamenu>
 </div>

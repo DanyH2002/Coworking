@@ -1,1 +1,47 @@
-<p>agregar works!</p>
+<div class="max-w-4xl mx-auto bg-gray-100 p-6 rounded-lg shadow-lg border border-gray-300">
+  <h2 class="text-3xl font-bold text-gray-800 text-center mb-6">
+    {{ usuario ? 'Actualizar Usuario' : 'Crear Usuario' }}
+  </h2>
+  <form [formGroup]="usuarioForm" (ngSubmit)="usuario ? actualizarUsuario() : crearUsuario()" class="space-y-6">
+    <div>
+      <label for="name" class="block text-sm font-medium text-gray-700 mb-2">Nombre</label>
+      <input pInputText formControlName="name"
+        class="w-full rounded-lg border border-gray-300 p-2 focus:outline-none focus:ring focus:ring-blue-300"
+        placeholder="Nombre del usuario" />
+      <small *ngIf="usuarioForm.controls['name'].invalid && usuarioForm.controls['name'].touched"
+        class="text-red-500">El nombre es requerido</small>
+    </div>
+    <div>
+      <label for="email" class="block text-sm font-medium text-gray-700 mb-2">Correo Electrónico</label>
+      <input pInputText formControlName="email"
+        class="w-full rounded-lg border border-gray-300 p-2 focus:outline-none focus:ring focus:ring-blue-300"
+        placeholder="Correo del usuario" />
+      <small *ngIf="usuarioForm.controls['email'].invalid && usuarioForm.controls['email'].touched"
+        class="text-red-500">Correo inválido o ya registrado</small>
+    </div>
+    <div>
+      <label for="password" class="block text-sm font-medium text-gray-700 mb-2">Contraseña</label>
+      <p-password formControlName="password" [feedback]="false"
+        class="w-full rounded-lg border border-gray-300 p-2 focus:outline-none focus:ring focus:ring-blue-300"
+        placeholder="Contraseña"></p-password>
+      <small *ngIf="usuarioForm.controls['password'].invalid && usuarioForm.controls['password'].touched"
+        class="text-red-500">La contraseña debe tener al menos 8 caracteres</small>
+    </div>
+    <div class="flex justify-between items-center">
+      <label for="rol" class="block text-sm font-medium text-gray-700">Rol de Administrador</label>
+      <p-inputSwitch formControlName="rol"></p-inputSwitch>
+    </div>
+    <p-toast class="my-4"></p-toast>
+    <div class="flex justify-end gap-4">
+      <p-button type="submit" [disabled]="usuarioForm.invalid"
+        class="p-2  text-white font-bold rounded-lg ">
+        {{ usuario ? 'Actualizar' : 'Crear' }}
+      </p-button>
+      <p-button type="button"
+        class="p-2   text-white font-bold rounded-lg "
+        (click)="volverALista()">
+        Cancelar
+      </p-button>
+    </div>
+  </form>
+</div>

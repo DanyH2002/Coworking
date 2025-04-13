@@ -1,1 +1,29 @@
-<p>lista works!</p>
+<div class="max-w-5xl mx-auto bg-gray-100 p-6 rounded-lg shadow-lg border border-gray-300">
+  <h2 class="text-3xl font-bold text-gray-800 mb-6 text-center">Lista de Usuarios</h2>
+  <p-table [value]="usuarios" class="shadow rounded-lg border border-gray-300">
+    <ng-template pTemplate="header">
+      <tr>
+        <th class="px-4 py-2 text-left text-gray-700 font-semibold">Nombre</th>
+        <th class="px-4 py-2 text-left text-gray-700 font-semibold">Correo</th>
+        <th class="px-4 py-2 text-left text-gray-700 font-semibold">Rol</th>
+        <th class="px-4 py-2 text-center text-gray-700 font-semibold">Acción</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-usuario>
+      <tr class="hover:bg-gray-200">
+        <td class="px-4 py-2 border-b border-gray-200">{{ usuario.name }}</td>
+        <td class="px-4 py-2 border-b border-gray-200">{{ usuario.email }}</td>
+        <td class="px-4 py-2 border-b border-gray-200">
+          <p-tag [severity]="usuario.rol === 1 ? 'info' : 'success'" [value]="usuario.rol === 1 ? 'Administrador' : 'Cliente'"></p-tag>
+        </td>
+        <td class="px-4 py-2 border-b border-gray-200 text-center">
+          <p-button
+            class="p-2 px-4 text-white rounded-lg "
+            (click)="verDetallesUsuario(usuario.id)">
+            <i class="pi pi-info-circle"></i> Detalles
+          </p-button>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>

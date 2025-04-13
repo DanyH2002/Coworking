@@ -1,71 +1,90 @@
-<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 justify-center">
-  <div class="mb-4 p-8 flex items-center justify-center">
-    <p-card [style]="{ width: '25rem', overflow: 'hidden' }">
-      <ng-template #header>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 justify-center">
+  <!-- Reservaciones del día -->
+  <div class="p-6 shadow-lg rounded-lg bg-white border border-gray-200 hover:shadow-2xl transition duration-300">
+    <p-card [style]="{ width: '100%', overflow: 'hidden' }">
+      <ng-template #title>
+        <div class="text-xl font-bold text-blue-600">Reservaciones del día</div>
       </ng-template>
-      <ng-template #title> Reservaciones del dia </ng-template>
       <ng-template #subtitle>No. de reservaciones de hoy</ng-template>
-      <ng-template #content></ng-template>
-      <ng-template #footer>
+      <ng-template #content>
+        <div class="text-2xl font-semibold text-center text-gray-800">{{dashboardData.reservaciones_hoy}}</div>
       </ng-template>
     </p-card>
   </div>
-  <div class="mb-4 p-8 flex items-center justify-center">
-    <p-card [style]="{ width: '25rem', overflow: 'hidden' }">
-      <ng-template #header>
+
+  <!-- Reservaciones pendientes -->
+  <div class="p-6 shadow-lg rounded-lg bg-white border border-gray-200 hover:shadow-2xl transition duration-300">
+    <p-card [style]="{ width: '100%', overflow: 'hidden' }">
+      <ng-template #title>
+        <div class="text-xl font-bold text-yellow-600">Reservaciones pendientes</div>
       </ng-template>
-      <ng-template #title> Reservaciones pendientes </ng-template>
       <ng-template #subtitle>No. de reservaciones pendientes</ng-template>
-      <ng-template #content></ng-template>
-      <ng-template #footer>
+      <ng-template #content>
+        <div class="text-2xl font-semibold text-center text-gray-800">{{dashboardData.reservaciones_pendientes}}</div>
       </ng-template>
     </p-card>
   </div>
-  <div class="mb-4 p-8 flex items-center justify-center">
-    <p-card [style]="{ width: '25rem', overflow: 'hidden' }">
-      <ng-template #header>
+
+  <!-- Usuarios registrados -->
+  <div class="p-6 shadow-lg rounded-lg bg-white border border-gray-200 hover:shadow-2xl transition duration-300">
+    <p-card [style]="{ width: '100%', overflow: 'hidden' }">
+      <ng-template #title>
+        <div class="text-xl font-bold text-green-600">Usuarios registrados</div>
       </ng-template>
-      <ng-template #title>Usuarios registrados</ng-template>
       <ng-template #subtitle>Total de usuarios registrados</ng-template>
-      <ng-template #content></ng-template>
-      <ng-template #footer>
+      <ng-template #content>
+        <div class="text-2xl font-semibold text-center text-gray-800">{{dashboardData.usuarios_registrados}}</div>
       </ng-template>
     </p-card>
   </div>
-  <div class="mb-4 p-8 flex items-center justify-center">
-    <p-card [style]="{ width: '25rem', overflow: 'hidden' }">
-      <ng-template #header>
+
+  <!-- Espacios existentes -->
+  <div class="p-6 shadow-lg rounded-lg bg-white border border-gray-200 hover:shadow-2xl transition duration-300">
+    <p-card [style]="{ width: '100%', overflow: 'hidden' }">
+      <ng-template #title>
+        <div class="text-xl font-bold text-purple-600">Espacios existentes</div>
       </ng-template>
-      <ng-template #title> Espacios existente </ng-template>
       <ng-template #subtitle>No. total de espacios</ng-template>
-      <ng-template #content></ng-template>
-      <ng-template #footer>
+      <ng-template #content>
+        <div class="text-2xl font-semibold text-center text-gray-800">{{dashboardData.espacios_existentes}}</div>
       </ng-template>
     </p-card>
   </div>
-  <div class="mb-4 p-8 flex items-center justify-center">
-    <p-card [style]="{ width: '25rem', overflow: 'hidden' }">
-      <ng-template #header>
+
+  <!-- Ingreso del mes -->
+  <div class="p-6 shadow-lg rounded-lg bg-white border border-gray-200 hover:shadow-2xl transition duration-300">
+    <p-card [style]="{ width: '100%', overflow: 'hidden' }">
+      <ng-template #title>
+        <div class="text-xl font-bold text-red-600">Ingreso del mes</div>
       </ng-template>
-      <ng-template #title> Ingreso del mes</ng-template>
-      <ng-template #subtitle>Total de ingreso de reservaciones</ng-template>
-      <ng-template #content></ng-template>
-      <ng-template #footer>
+      <ng-template #subtitle>Total de ingreso de reservaciones (pagadas)</ng-template>
+      <ng-template #content>
+        <div class="text-2xl font-semibold text-center text-gray-800">${{dashboardData.ingresos_mes}}</div>
       </ng-template>
     </p-card>
   </div>
-  <div class="mb-4 p-8 flex items-center justify-center">
-    <p-card [style]="{ width: '25rem', overflow: 'hidden' }">
-      <ng-template #header>
+
+  <!-- Reservaciones del mes -->
+  <div class="p-6 shadow-lg rounded-lg bg-white border border-gray-200 hover:shadow-2xl transition duration-300">
+    <p-card [style]="{ width: '100%', overflow: 'hidden' }">
+      <ng-template #title>
+        <div class="text-xl font-bold text-orange-600">Reservaciones del mes</div>
       </ng-template>
-      <ng-template #title> Reservaciones del mes </ng-template>
-      <ng-template #subtitle>Porcentaje de reservaciones del mes</ng-template>
-      <ng-template #content></ng-template>
-      <ng-template #footer>
+      <ng-template #subtitle>Porcentaje de reservaciones del mes (confirmadas)</ng-template>
+      <ng-template #content>
+        <div class="text-2xl font-semibold text-center text-gray-800">{{dashboardData.porcentaje_reservaciones_mes |
+          number:'1.0-2' }}%</div>
       </ng-template>
     </p-card>
   </div>
 </div>
-<div class="card">
-  <p-chart type="line" [data]="data" [options]="options" class="h-[30rem]" />
+
+<!-- Gráficas -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+  <div class="p-6 shadow-lg rounded-lg bg-white border border-gray-200 hover:shadow-2xl transition duration-300">
+    <p-chart type="bar" [data]="data" [options]="options" class="h-[30rem]" />
+  </div>
+  <div class="p-6 shadow-lg rounded-lg bg-white border border-gray-200 hover:shadow-2xl transition duration-300">
+    <p-chart type="line" [data]="ingresosChartData" [options]="options" class="h-[30rem]" />
+  </div>
 </div>
