@@ -102,6 +102,10 @@ export class DetallesComponent implements OnInit {
       this.message.add({ severity: 'warn', summary: 'Advertencia', detail: 'Esta reservación ya está confirmada' });
       return;
     }
+    if (this.reservacion.estado === 'cancelada') {
+      this.message.add({ severity: 'warn', summary: 'Advertencia', detail: 'Esta reservación está cancelada y no puede ser pagada' });
+      return;
+    }
     this.conf.confirm({
       message: '¿Desea confirmar el pago de esta reservación?',
       header: 'Confirmar Pago',
@@ -119,14 +123,19 @@ export class DetallesComponent implements OnInit {
       },
       accept: () => {
         const requestData = { id_reservacion: this.reservacion.id };
-        this.api.postItem('reservaciones/pay',requestData).subscribe({
+        this.api.postItem('reservaciones/pay', requestData).subscribe({
           next: (data) => {
             console.log('Pago confirmado', data);
-            this.reservacion.estado = 'confirmada';
-            this.message.add({ severity: 'success', summary: 'Éxito', detail: 'Pago confirmado' });
-            setTimeout(() => {
-              this.router.navigateByUrl('/inicio/reservaciones');
-            }, 3000);
+            if (data.status == 1) {
+              this.reservacion = data.reservacion;
+              this.reservacion.estado = 'confirmada';
+              this.message.add({ severity: 'success', summary: 'Éxito', detail: 'Pago confirmado' });
+              setTimeout(() => {
+                this.router.navigateByUrl('/inicio/reservaciones');
+              }, 3000);
+            } else {
+              this.message.add({ severity: 'error', summary: 'Error', detail: 'No se pudo confirmar el pago' + ' ' + data.message });
+            }
           },
           error: (error) => {
             console.error('Error al confirmar el pago', error);
@@ -138,5 +147,9 @@ export class DetallesComponent implements OnInit {
         this.message.add({ severity: 'info', summary: 'Cancelado', detail: 'Pago no confirmado' });
       }
     });
+  }
+
+  irAReservaciones() {
+    this.router.navigate(['/inicio/reservaciones']);
   }
 }

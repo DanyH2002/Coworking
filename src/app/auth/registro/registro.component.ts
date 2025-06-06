@@ -35,18 +35,31 @@ export class RegistroComponent {
     console.log(this.Registro.value);
     if (this.Registro.valid) {
       // API para registrar al usuario
-      this.api.postItem('auth',this.Registro.value,'register').subscribe({
+      this.api.postItem('auth', this.Registro.value, 'register').subscribe({
         next: (response) => {
-          console.log("Registro exitoso", response);
-          this.message.add({ severity: 'success', summary: 'Éxito', detail: 'Registro exitoso' });
-          // Retrasar la redirección para que el Toast sea visible
-          setTimeout(() => {
-            this.router.navigateByUrl('/login');
-          }, 3000);
+          if (response.status !== 1) {
+            console.error("Error en el registro", response);
+            this.message.add({ severity: 'error', summary: 'Error', detail: 'Error: ' + response.message });
+            return;
+          } else {
+            console.log("Registro exitoso", response);
+            this.message.add({ severity: 'success', summary: 'Éxito', detail: 'Registro exitoso: ' + response.usuario.name });
+            // Guardar datos en localStorage
+            localStorage.setItem('token', response.token);
+            localStorage.setItem('rol', response.usuario.rol);
+            localStorage.setItem('id', response.usuario.id.toString());
+            localStorage.setItem('nombre', response.usuario.name);
+            localStorage.setItem('email', response.usuario.email);
+            console.log("LocalStorage actualizado correctamente." + localStorage.length);
+            // Retrasar la redirección para que el Toast sea visible
+            setTimeout(() => {
+              this.router.navigateByUrl('/inicio');
+            }, 3000);
+          }
         },
         error: (error) => {
           console.error("Error en el registro", error);
-          this.message.add({ severity: 'error', summary: 'Error', detail: 'Error en el registro, por favor revise los campos' });
+          this.message.add({ severity: 'error', summary: 'Error', detail: 'Error: ' + error.message });
         }
       });
     } else {

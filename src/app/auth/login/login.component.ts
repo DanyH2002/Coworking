@@ -32,15 +32,21 @@ export class LoginComponent {
   onSubmit() {
     if (this.Login.valid) {
       // API para loguear al usuario
-      this.api.postItem('auth', this.Login.value,'login').subscribe({
+      this.api.postItem('auth', this.Login.value, 'login').subscribe({
         next: (response) => {
+          if (response.status !== 1) {
+            console.error("Error en el inicio de sesión", response);
+            this.message.add({ severity: 'error', summary: 'Error', detail: 'Error: ' + response.message });
+            return;
+          }
+          console.log("Respuesta del inicio de sesión", response);
           console.log("Inicio de sesión exitoso", response);
           localStorage.setItem('token', response.token);
           localStorage.setItem('rol', response.rol);
           localStorage.setItem('id', response.id.toString());
           localStorage.setItem('nombre', response.name);
           localStorage.setItem('email', response.email);
-          console.log("LocalStorage actualizado correctamente."+ localStorage.length);
+          console.log("LocalStorage actualizado correctamente." + localStorage.length);
           this.message.add({ severity: 'success', summary: 'Éxito', detail: 'Inicio de sesión exitoso' });
           // Retrasar la redirección para que el Toast sea visible
           setTimeout(() => {

@@ -41,14 +41,20 @@
   </div>
   <p-toast class="my-4"></p-toast>
   <div class="flex justify-end space-x-4 mt-6">
-    <button class="p-2 px-4 bg-red-500 text-white font-bold rounded-lg shadow hover:bg-red-600 transition duration-300"
+    <button *ngIf="reservacion?.estado==='Pendiente' || reservacion?.estado==='Confirmada' "
+    class="p-2 px-4 bg-red-500 text-white font-bold rounded-lg shadow hover:bg-red-600 transition duration-300"
       (click)="cancelarReservacion($event)">
       <i class="pi pi-times"></i> Cancelar
     </button>
-    <button *ngIf="isAdmin" [disabled]="reservacion?.estado === 'confirmada'"
+    <button *ngIf="isAdmin && reservacion?.estado === 'Pendiente'"
       class="p-2 px-4 bg-green-500 text-white font-bold rounded-lg shadow hover:bg-green-600 transition duration-300"
       (click)="pagarReservacion($event)">
       <i class="pi pi-dollar"></i> Pagar
+    </button>
+    <button
+      class="p-2 px-4 bg-blue-500 text-white font-bold rounded-lg shadow hover:bg-blue-600 transition duration-300"
+      (click)="irAReservaciones()">
+      Lista de Reservaciones
     </button>
   </div>
 </div>
